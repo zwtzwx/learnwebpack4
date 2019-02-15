@@ -78,3 +78,69 @@ npm i -D optimize-css-assets-webpack-plugin uglifyjs-webpack-plugin
 ```
 npm i -D terser-webpack-plugin
 ```
+
+## webpack 处理带哈希值的文件名引入问题
+> 我们给打包的文件打上哈希是为了解决缓存更新问题。但是打上 hash 之后怎么引用又是一个问题。`html-webpack-plugin` 插件可以把 js/css 注入到一个模板文件中，所以不需要再手动更改引用。
+``` shell
+npm i -D html-webpack-plugin
+```
+``` javascript
+new HtmlWebpackPlugin({
+        inject: true,
+        hash: true,
+        cache: true,
+        chunksSortMode: 'none',
+        title: 'Webapck4-demo', // 可以由外面传入
+        filename: 'index.html', // 默认index.html
+        template: path.resolve(__dirname, 'index.html'),
+        minify: {
+            collapseWhitespace: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true
+        }
+    })
+```
+
+## webpack 清理打包后的 dist 目录
+``` shell
+npm i -D clean-webpack-plugin
+```
+
+## webpack 处理图片以及优化
+> 使用 `file-loader` 处理文件的导入
+``` shell
+npm i -D file-loader
+```
+> 使用 `url-loader` 把图片转为 base64 以及处理字体
+``` shell
+npm i -D url-loader
+```
+
+## webpack 配置分层
+webpack 会根据不同的环境加载不同的配置，所以可以提取出三部分
+- base: 公共的部分
+- dev: 开发环境部分
+- prod: 生产环境部分
+
+``` shell
+npm i -D webpack-merge
+```
+
+## webpack 配置 js 使用 sourceMap
+> 在 webpack4 中使用 inline-source-map 选项就可以启动错误的堆栈跟踪，只用于开发环境
+``` javascript
+devtool: 'inline-source-map
+```
+
+## 监控文件变化自动编译
+简单的方法就是启动 `watch` 模式：
+``` json
+"dev": "cross-env NODE_ENV=development npx webpack --progress --config dist/webpack.dev.conf.js --watch"
+```
+
+## webpack 打包报表分析以及优化
+``` shell
+npm i -D webpack-bundle-analyzer
+```

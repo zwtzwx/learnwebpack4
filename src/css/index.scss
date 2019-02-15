@@ -5,3 +5,9 @@ body {
 p {
     background-color: antiquewhite;
 }
+.logo {
+    background: url('../assets/images/sort.png') no-repeat;
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+}
